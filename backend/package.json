@@ -18,14 +18,14 @@
     "directory": "backend"
   },
   "dependencies": {
-    "@mevserp/parser": "^0.0.1",
-    "cheerio": "^1.0.0-rc.10",
     "dotenv": "^16.0.0",
-    "express": "^4.17.3"
+    "express": "^4.17.3",
+    "puppeteer": "^13.6.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
     "@types/node": "^17.0.21",
+    "@types/puppeteer": "^5.4.5",
     "nodemon": "^2.0.15",
     "prettier": "^2.5.1",
     "ts-node": "^10.6.0",
