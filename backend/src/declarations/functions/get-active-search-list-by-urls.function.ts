@@ -1,6 +1,9 @@
-import {ActiveSearchModel} from "../models/active-search.model";
+import { ActiveSearchModel } from "../models/active-search.model";
 
-export async function getActiveSearchListByUrls(urls: string[], createParseFn: (url: string) => Promise<ActiveSearchModel.View>) {
+export async function getActiveSearchListByUrls(
+  urls: string[],
+  createParseFn: (url: string) => Promise<ActiveSearchModel.View>
+) {
   const getActiveSearchList = async (urls: string[], index: number = 0): Promise<ActiveSearchModel.View[]> => {
     console.log(index, urls[index]);
 
@@ -14,11 +17,11 @@ export async function getActiveSearchListByUrls(urls: string[], createParseFn: (
     }
 
     if (index < urls.length - 1) {
-      return [...activeSearchList, ...await getActiveSearchList(urls, index + 1)];
+      return [...activeSearchList, ...(await getActiveSearchList(urls, index + 1))];
     }
 
     return activeSearchList;
-  }
+  };
 
   return await getActiveSearchList(urls);
 }
