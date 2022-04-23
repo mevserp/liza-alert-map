@@ -3,7 +3,7 @@ import puppeteer from 'puppeteer';
 const FORUM_URL: string = 'https://lizaalert.org/forum/';
 const ACTIVE_SEARCH_LIST_LINK_TEXT: string = 'Активные поиски';
 
-export class ActiveSearchLinksParser {
+export class ActiveSearchUrlsParser {
   public async parse(): Promise<string[]> {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
@@ -22,7 +22,7 @@ export class ActiveSearchLinksParser {
 
     await page.goto(activeSearchListUrl);
 
-    const activeSearchListLinks: string[] = await page.evaluate(
+    const activeSearchUrls: string[] = await page.evaluate(
         () => {
           const SEARCH_LINKS_CSS_CLASS: string = 'topictitle';
           const nodes: NodeListOf<HTMLLinkElement> = document.querySelectorAll<HTMLLinkElement>(`.${SEARCH_LINKS_CSS_CLASS}`);
@@ -33,6 +33,6 @@ export class ActiveSearchLinksParser {
 
     await browser.close();
 
-    return activeSearchListLinks;
+    return activeSearchUrls;
   }
 }

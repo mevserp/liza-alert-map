@@ -1,15 +1,11 @@
 import puppeteer from 'puppeteer';
+import {ActiveSearchModel} from "../declarations/models/active-search.model";
 
-export interface ActiveSearchInfo {
-  name: string;
-  coordinates: [number, number];
-}
-
-export class ActiveSearchInfoParser {
+export class ActiveSearchParser {
   constructor(private readonly startUrl: string) {
   }
 
-  public async parse(): Promise<ActiveSearchInfo> {
+  public async parse(): Promise<ActiveSearchModel.View> {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto(this.startUrl);
@@ -44,6 +40,8 @@ export class ActiveSearchInfoParser {
         }
     ) ?? [];
 
+    await browser.close();
+
     const regExpPattern: RegExp = new RegExp(/\d\d[.]\d\d\d\d\d\d[,]\d\d[.]\d\d\d\d\d\d/g)
     const texts: RegExpMatchArray[] = postsTexts.map(
         (item: string) => item.trim().split(' ').join('').match(regExpPattern)
@@ -52,10 +50,11 @@ export class ActiveSearchInfoParser {
     );
 
 
-    const coordinates: number[] = texts.slice(-1)?.[0]?.[0].split(',').map(Number) ?? [0, 0];
+    const coordinates: number[] = texts.slice(-1)?.[0]?.[0].split(',').map(Number) ?? [Infinity, Infinity];
 
     return {
       name,
+      url: this.startUrl,
       coordinates: [coordinates[0], coordinates[1]],
     }
   }
