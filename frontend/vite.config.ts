@@ -6,8 +6,12 @@ import {VitePWA} from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    port: 3000,
+    host: '0.0.0.0'
+  },
   plugins: [vue(),     VitePWA({
-    includeAssets: ['favicon.ico', 'robots.txt', 'img/icons/apple-touch-icon.png'],
+    includeAssets: ['favicon.ico', 'robots.txt', 'img/icons/apple-touch-icon.png', 'green-marker.svg', 'grey-marker.svg', 'red-marker.svg'],
     manifest: {
       name: 'Liza Alert Map',
       short_name: 'LAMAP',

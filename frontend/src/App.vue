@@ -2,20 +2,25 @@
   <div class="app">
     <yandex-map
         v-if="!loading"
-        :coords="coords[0]"
+        :coords="averageCoords"
         :zoom="10"
     >
       <ymap-marker
           v-for="item of activeSearchList"
           :coords="item.coordinates"
           :marker-id="index"
-          :balloon-template="getBalloonTemplateByActiveList(item)"
+          :icon="getIconBySearchState(item.state)"
+          :balloon-template="getBalloonTemplateByActiveSearch(item)"
       />
     </yandex-map>
   </div>
 </template>
 
 <style>
+* {
+  margin: 0;
+}
+
 .app {
   width: 100%;
   height: 100vh;
@@ -28,6 +33,12 @@
 </style>
 
 <script lang="js">
+const markerPathByState = {
+  Dead: 'grey-marker.svg',
+  Alive: 'green-marker.svg',
+  Lost: 'red-marker.svg',
+}
+
 export default {
   el: '#app',
   data() {
@@ -39,14 +50,27 @@ export default {
   computed: {
     coords() {
       return this.activeSearchList.map((item) => item.coordinates);
+    },
+    averageCoords() {
+      const getAveragePoint = (extractPoint) => this.coords.map(extractPoint).reduce((amount, current) => amount + current, 0) / this.coords.length;
+      return [getAveragePoint(item => item[0]), getAveragePoint(item => item[1])]
     }
   },
   methods: {
-    getBalloonTemplateByActiveList(activeList) {
-      console.log(activeList);
+    getBalloonTemplateByActiveSearch(activeSearch) {
+      console.log(activeSearch);
       return `
-        <a href="${activeList.url}">${activeList.name}</a>
+        <a href="${activeSearch.url}">${activeSearch.name}</a>
       `
+    },
+    getIconBySearchState(state) {
+      console.log(state)
+      return {
+        layout: 'default#image',
+        imageHref: markerPathByState?.[state] ?? state.Lost,
+        imageSize: [30, 40],
+        imageOffset: [-15, -35]
+      }
     }
   },
   async mounted() {

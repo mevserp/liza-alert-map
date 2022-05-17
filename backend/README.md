@@ -3,17 +3,17 @@
 ## Setup
 
 ```sh
-yarn
+npm i
 ```
 
 ## Start
 
 ```sh
-yarn start
+npm run start
 ```
 
 ## Build
 
 ```sh
-yarn build
+npm run build
 ```

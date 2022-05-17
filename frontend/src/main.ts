@@ -9,7 +9,7 @@ import YmapPlugin from 'vue-yandex-maps'
 const app = createApp(App);
 
 const settings = {
-  apiKey: '4ad32e3a-daa3-452b-9214-36ee05203216',
+  apiKey: '0612139a-61d6-4c5f-8d7a-88ece09588fa',
   lang: 'ru_RU',
   coordorder: 'latlong',
   enterprise: false,

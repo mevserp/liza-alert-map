@@ -1,5 +1,6 @@
 import puppeteer from "puppeteer";
-import { ActiveSearchModel } from "../declarations/models/active-search.model";
+import {ActiveSearchModel} from "../declarations/models/active-search.model";
+import {ActiveSearchState} from "../declarations/enums/active-search-state.enum";
 
 export class ActiveSearchParser {
   constructor(private readonly startUrl: string) {}
@@ -45,8 +46,23 @@ export class ActiveSearchParser {
 
     return {
       name,
+      state: this.getStateByName(name),
       url: this.startUrl,
       coordinates: [coordinates[0], coordinates[1]],
     };
+  }
+
+  private getStateByName(name: string): ActiveSearchState {
+    const nameToCheck: string = name.toLowerCase().slice(0, 10);
+
+    if (nameToCheck.includes('жив')) {
+      return ActiveSearchState.Alive;
+    }
+
+    if (nameToCheck.includes('стоп') || nameToCheck.includes('stop') || nameToCheck.includes('мер') || nameToCheck.includes('нп')) {
+      return ActiveSearchState.Died;
+    }
+
+    return ActiveSearchState.Lost;
   }
 }

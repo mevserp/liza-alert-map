@@ -33,21 +33,10 @@ app.get("/activeSearchList", async (req, res) => {
 
   // JSON
   res.json(availableActiveSearchList);
-
-  // VIEW
-  // res.send(
-  //   availableActiveSearchList
-  //     .map(
-  //       (info: ActiveSearchModel.View) => `
-  //       <p>
-  //           <a href="${info.url}">${info.name}</a>: <b>${info.coordinates.join(", ")}</b>
-  //       </p>
-  //     `
-  //     )
-  //     .join("")
-  // );
 });
 
-app.listen(process.env.PORT, () => {
+const port: number = Number(process.env.PORT) || 5000;
+
+app.listen(port, () => {
   console.log(`The app is listening on port ${process.env.PORT}!`);
 });
